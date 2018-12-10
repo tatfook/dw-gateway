@@ -5,5 +5,6 @@
  */
 module.exports = app => {
   const { router, controller } = app;
-  router.post('/', controller.event.index);
+  router.post('/event', controller.analystics.event);
+  router.post('/events', controller.analystics.events);
 };

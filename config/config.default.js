@@ -74,7 +74,7 @@ module.exports = appInfo => {
   };
 
   config.elk = {
-    host: '10.28.18.7:8099',
+    host: 'http://10.28.18.7:8099',
   };
 
   return config;

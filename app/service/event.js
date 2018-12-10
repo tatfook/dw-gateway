@@ -1,9 +1,10 @@
 'use strict';
 const Service = require('egg').Service;
-// const axios = require('axios');
+const axios = require('axios');
 const _ = require('lodash');
 const uuid = require('uuid/v4');
-
+const requestIp = require('request-ip');
+const useragent = require('useragent');
 
 const eventRule = {
   keepwork: {
@@ -31,12 +32,25 @@ const getEventTopicKey = (rule, action) => {
 
 class EventService extends Service {
   async sendToELK(event) {
-    // TODO
-    return event;
+    const agent = useragent.parse(this.ctx.request.headers['user-agent']);
+    const data = {
+      event,
+      client: {
+        agent: agent.toString(),
+        ip: requestIp.getClientIp(this.ctx.request),
+      },
+    };
+    const res = await axios({
+      method: 'post',
+      url: this.config.elk.host,
+      data,
+    });
+
+    return res.data;
   }
 
   async sendToKafka(event) {
-    const rule = eventRule[event.type];
+    const rule = eventRule[event.category];
     if (!rule.etl) return false;
     const topic = getEventTopicKey(rule, event.action);
     const key = event.action;
@@ -62,7 +76,6 @@ class EventService extends Service {
     const buffer = this.ctx.helper.binaryEncode(data);
     const msg = [ this.ctx.kafka.Message(topic, key, buffer) ];
     try {
-      console.log('message');
       await this.ctx.kafka.send(msg);
       return true;
     } catch (err) {
