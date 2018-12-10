@@ -5,7 +5,7 @@ const _ = require('lodash');
 
 class AnalysticsController extends Controller {
   async event() {
-    const event = this.ctx.params.permit('category', 'action', 'data');
+    const event = this.ctx.params.permit('category', 'action', 'data', 'tags');
     console.log('event: ', event);
     await this.ctx.service.event.sendToKafka(event);
     await this.ctx.service.event.sendToELK(event);
@@ -18,7 +18,7 @@ class AnalysticsController extends Controller {
       const records = [];
       for (let i = 0; i < events.length; i++) {
         try {
-          const event = _.pick(events[i], [ 'category', 'action', 'data' ]);
+          const event = _.pick(events[i], [ 'category', 'action', 'data', 'tags' ]);
           if (!event.category || !event.action) {
             records.push('invalid category or action!');
             continue;
