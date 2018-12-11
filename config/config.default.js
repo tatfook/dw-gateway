@@ -28,36 +28,11 @@ module.exports = appInfo => {
     host: '10.28.18.4:9092',
     encoding: 'buffer', // trans binary data
     keyEncoding: 'utf8',
-    sub: [
-      {
-        groupId: 'event-keepwork-queue',
-        throttle: {
-          concurrency: 1,
-          highWaterMark: 100,
-        },
-        topics: [
-          'evt_kp_queue',
-        ],
-      },
-      {
-        groupId: 'event-keepwork-common',
-        topics: [
-          'evt_kp_common',
-        ],
-      },
-    ],
-    pub:
-    {
-      topics: [
-        'evt_kp_queue',
-        'evt_kp_common',
-      ],
-      partition: 0,
-      attributes: 0,
-    },
     env: 'development',
+    sub: [],
+    pub: {},
     avroSchema: {
-      namespace: 'com.keepwork.statistic',
+      namespace: 'com.tatfook.statistic',
       type: 'record',
       name: 'events',
       fields: [
@@ -75,6 +50,20 @@ module.exports = appInfo => {
 
   config.elk = {
     host: 'http://10.28.18.7:8099',
+  };
+
+  config.eventRules = {
+    keepwork: { // category
+      etl: true, // have etl?
+      actions: { // action keys mapper
+        evt_kp_common: [ 'Hello' ],
+        evt_kp_queue: [],
+      },
+      defaultKey: 'evt_kp_queue',
+    },
+    paracraft: {
+      etl: false,
+    },
   };
 
   return config;

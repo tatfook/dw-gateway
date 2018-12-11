@@ -2,7 +2,7 @@
 
 const { app, assert } = require('egg-mock/bootstrap');
 
-describe('test/app/controller/home.test.js', () => {
+describe('test/app/controller/analystics.test.js', () => {
 
   it('should assert', function* () {
     const pkg = require('../../../package.json');
@@ -12,10 +12,10 @@ describe('test/app/controller/home.test.js', () => {
     // yield ctx.service.xx();
   });
 
-  it('should GET /', () => {
-    return app.httpRequest()
-      .get('/')
-      .expect('hi, egg')
-      .expect(200);
-  });
+  // it('should GET /', () => {
+  //   return app.httpRequest()
+  //     .get('/')
+  //     .expect('hi, egg')
+  //     .expect(200);
+  // });
 });
