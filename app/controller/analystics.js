@@ -6,7 +6,6 @@ const _ = require('lodash');
 class AnalysticsController extends Controller {
   async event() {
     const event = this.ctx.params.permit('category', 'action', 'data', 'tags');
-    console.log('event: ', event);
     await this.ctx.service.event.sendToKafka(event);
     await this.ctx.service.event.sendToELK(event);
     this.ctx.body = 'messages sended';
