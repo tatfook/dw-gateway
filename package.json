@@ -29,7 +29,7 @@
     "node": ">=8.9.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-dw-gateway",
+    "start": "egg-scripts start --port=80 --title=egg-server-dw-gateway",
     "stop": "egg-scripts stop --title=egg-server-dw-gateway",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
