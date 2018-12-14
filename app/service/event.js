@@ -1,6 +1,5 @@
 'use strict';
 const Service = require('egg').Service;
-const axios = require('axios');
 const _ = require('lodash');
 const uuid = require('uuid/v4');
 const requestIp = require('request-ip');
@@ -40,11 +39,7 @@ class EventService extends Service {
         ip: requestIp.getClientIp(this.ctx.request),
       },
     };
-    const res = await axios({
-      method: 'post',
-      url: this.config.elk.host,
-      data,
-    });
+    const res = this.app.logstashClient.post('/', data);
 
     return res.data;
   }
