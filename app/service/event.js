@@ -39,7 +39,7 @@ class EventService extends Service {
         ip: requestIp.getClientIp(this.ctx.request),
       },
     };
-    const res = this.app.logstashClient.post('/', data);
+    const res = this.app.logstashClient().post('/', data);
 
     return res.data;
   }
